@@ -76,12 +76,12 @@
 
           <div id="qr-reader" class="qr-box"></div>
 
-          <!-- 🔹 TEXTO QUE SE VE ANTES DE ESCANEAR -->
+          <!-- TEXTO QUE SE VE ANTES DE ESCANEAR -->
           <p id="qr-hint" class="ident-text" style="margin-top: 10px; opacity: 0.8;">
             Escanea el QR para ver los datos del concesionario.
           </p>
 
-          <!-- 🔹 FORMULARIO OCULTO HASTA QUE EL QR SEA VÁLIDO -->
+          <!-- FORMULARIO OCULTO HASTA QUE EL QR SEA VÁLIDO -->
           <div id="concesionario-datos" class="signup-form concesionario-form hidden">
 
             <div class="form-group">
@@ -113,11 +113,69 @@
         </div>
       </div>
 
-      <div class="ident-footer">
-        <button id="btn-continuar" class="btn btn-primary full-width" disabled>
-          Continuar a pantalla principal
-        </button>
-      </div>
+      <!-- PASO 3: PANEL DE REPORTE (SE MUESTRA SOLO CUANDO HAY FOTO + QR) -->
+      <section id="incident-panel" class="incident-panel hidden">
+        <div class="incident-header">
+          <span class="incident-step-badge">PASO 3</span>
+          <h2 class="incident-title">Reporta un incidente</h2>
+          <p class="incident-subtitle">
+            Selecciona el tipo de problema y cuéntanos brevemente qué ocurrió.
+          </p>
+        </div>
+
+        <form id="incident-form" class="incident-form">
+          <!-- tipo seleccionado (se llena con los botones) -->
+          <input type="hidden" id="incident-type" />
+
+          <div class="incident-tags">
+            <button type="button" class="incident-tag" data-type="higiene">
+              Malas prácticas de higiene
+            </button>
+            <button type="button" class="incident-tag" data-type="comida-mal-estado">
+              Comida en mal estado
+            </button>
+            <button type="button" class="incident-tag" data-type="trato-inadecuado">
+              Trato inadecuado
+            </button>
+            <button type="button" class="incident-tag" data-type="precios-injustos">
+              Precios injustos
+            </button>
+            <button type="button" class="incident-tag" data-type="productos-caducados">
+              Productos caducados
+            </button>
+            <button type="button" class="incident-tag" data-type="malas-condiciones">
+              Malas condiciones en instalaciones
+            </button>
+            <button type="button" class="incident-tag" data-type="uso-areas-no-designadas">
+              Uso de áreas no designadas
+            </button>
+            <button type="button" class="incident-tag" data-type="maquinas-expendedoras">
+              Máquinas expendedoras
+            </button>
+            <button type="button" class="incident-tag" data-type="seguridad-proteccion-civil">
+              Falta de seguridad y protección civil
+            </button>
+            <button type="button" class="incident-tag" data-type="porciones-inadecuadas">
+              Porciones inadecuadas
+            </button>
+          </div>
+
+          <label class="incident-label" for="incident-detalles">
+            Describe brevemente lo que pasó
+          </label>
+          <textarea
+            id="incident-detalles"
+            class="incident-textarea"
+            rows="4"
+            placeholder="Ejemplo: Encontré comida en mal estado en la vitrina de postres cerca de la caja 2..."
+          ></textarea>
+
+          <button type="submit" class="btn btn-primary full-width incident-submit">
+            Enviar reporte
+          </button>
+        </form>
+      </section>
+
     </section>
   </div>
 

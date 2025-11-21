@@ -495,3 +495,104 @@ h1, h2, h3,
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== PANEL DE REPORTE (PASO 3) ===== */
+
+.incident-panel {
+  margin-top: 18px;
+  padding: 18px 16px 22px;
+  border-radius: 22px;
+  background: radial-gradient(circle at top left,
+              rgba(56, 189, 248, 0.18),
+              rgba(15, 23, 42, 0.95));
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+}
+
+.incident-header {
+  margin-bottom: 12px;
+}
+
+.incident-step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e0e7ff;
+  background: rgba(79, 70, 229, 0.25);
+  border-radius: 999px;
+  padding: 4px 10px;
+  border: 1px solid rgba(129, 140, 248, 0.6);
+}
+
+.incident-title {
+  margin: 8px 0 2px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f9fafb;
+}
+
+.incident-subtitle {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #cbd5f5;
+}
+
+.incident-form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.incident-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.incident-tag {
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.72rem;
+  color: #e5e7eb;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.incident-tag.active {
+  background: #facc15;
+  border-color: #facc15;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.incident-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+.incident-textarea {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  background: rgba(15, 23, 42, 0.9);
+  color: #f9fafb;
+  resize: vertical;
+}
+
+.incident-textarea::placeholder {
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.incident-submit {
+  margin-top: 4px;
+}

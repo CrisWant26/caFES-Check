@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const videoElement   = document.getElementById("camera-preview");
   const photoCanvas    = document.getElementById("photo-canvas");
   const photoPreview   = document.getElementById("photo-preview");
-  const continuarBtn   = document.getElementById("btn-continuar");
   const startQrBtn     = document.getElementById("btn-start-qr");
 
   // Campos de texto del concesionario
@@ -71,13 +70,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const campoAutorizado  = document.getElementById("campo-autorizado");
   const campoHorario     = document.getElementById("campo-horario");
 
-  // Contenedor del formulario y texto de hint
+  // Panel de incidente
+  const incidentPanel       = document.getElementById("incident-panel");
+  const incidentForm        = document.getElementById("incident-form");
+  const incidentTypeInput   = document.getElementById("incident-type");
+  const incidentDetalleArea = document.getElementById("incident-detalles");
+  const incidentTagButtons  = document.querySelectorAll(".incident-tag");
+
+  // Concesionario UI extra
   const concesionarioForm = document.getElementById("concesionario-datos");
   const qrHint            = document.getElementById("qr-hint");
 
-  function actualizarEstadoContinuar() {
-    if (continuarBtn) {
-      continuarBtn.disabled = !(fotoTomada && qrLeido);
+  function actualizarVisibilidadIncidente() {
+    if (!incidentPanel) return;
+    if (fotoTomada && qrLeido) {
+      incidentPanel.classList.remove("hidden");
+    } else {
+      incidentPanel.classList.add("hidden");
     }
   }
 
@@ -162,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
       retakePhotoBtn.classList.remove("hidden");
 
       fotoTomada = true;
-      actualizarEstadoContinuar();
+      actualizarVisibilidadIncidente();
 
       // Opcional: apagar cámara después de sacar foto
       detenerCamara();
@@ -172,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   retakePhotoBtn?.addEventListener("click", async () => {
-    // Volver a pedir cámara
     startCamBtn.classList.remove("hidden");
     takePhotoBtn.classList.add("hidden");
     retakePhotoBtn.classList.add("hidden");
@@ -180,14 +188,13 @@ document.addEventListener("DOMContentLoaded", () => {
     videoElement.classList.add("hidden");
 
     fotoTomada = false;
-    actualizarEstadoContinuar();
+    actualizarVisibilidadIncidente();
   });
 
   // =========================
   //  2. QR EN VIVO
   // =========================
 
-  // Crear instancia del lector QR (si la librería está disponible)
   try {
     if (typeof Html5Qrcode !== "undefined") {
       html5QrCode = new Html5Qrcode("qr-reader");
@@ -206,9 +213,10 @@ document.addEventListener("DOMContentLoaded", () => {
       datosDelQR = JSON.parse(decodedText);
     } catch (e) {
       alert("El QR no es válido: debe contener un JSON.");
-      // Aseguramos que el formulario siga oculto
       if (concesionarioForm) concesionarioForm.classList.add("hidden");
       if (qrHint) qrHint.classList.remove("hidden");
+      qrLeido = false;
+      actualizarVisibilidadIncidente();
       return;
     }
 
@@ -220,6 +228,8 @@ document.addEventListener("DOMContentLoaded", () => {
       alert(`El número autorizado "${datosDelQR.numAutorizado}" no existe en la base de datos.`);
       if (concesionarioForm) concesionarioForm.classList.add("hidden");
       if (qrHint) qrHint.classList.remove("hidden");
+      qrLeido = false;
+      actualizarVisibilidadIncidente();
       return;
     }
 
@@ -230,14 +240,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (campoAutorizado)  campoAutorizado.value  = registroEncontrado.autorizado;
     if (campoHorario)     campoHorario.value     = registroEncontrado.horario;
 
-    // 👉 Mostrar formulario y ocultar mensaje de ayuda
     if (concesionarioForm) concesionarioForm.classList.remove("hidden");
     if (qrHint) qrHint.classList.add("hidden");
 
     qrLeido = true;
-    actualizarEstadoContinuar();
+    actualizarVisibilidadIncidente();
 
-    // Detener escáner QR
     if (html5QrCode && qrCorriendo) {
       html5QrCode.stop().then(() => {
         qrCorriendo = false;
@@ -260,7 +268,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Config para QR cuadrado, centrado
     const config = {
       fps: 10,
       qrbox: { width: 230, height: 230 } // cuadrado
@@ -279,14 +286,55 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =========================
-  //  3. BOTÓN CONTINUAR
+  //  3. LÓGICA DEL FORMULARIO DE INCIDENTE
   // =========================
 
-  continuarBtn?.addEventListener("click", () => {
-    if (fotoTomada && qrLeido) {
-      // Aquí podrías guardar info en localStorage si lo necesitas
-      // localStorage.setItem("reporte_datos", JSON.stringify(...));
-      window.location.href = "main.html";
+  // selección de tipo de incidente
+  incidentTagButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      incidentTagButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      if (incidentTypeInput) incidentTypeInput.value = btn.dataset.type || "";
+    });
+  });
+
+  incidentForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (!fotoTomada || !qrLeido) {
+      alert("Primero toma la fotografía y escanea el QR del concesionario.");
+      return;
     }
+
+    if (!incidentTypeInput.value) {
+      alert("Selecciona el tipo de reporte.");
+      return;
+    }
+
+    const detalle = (incidentDetalleArea?.value || "").trim();
+    if (!detalle) {
+      alert("Describe brevemente lo que ocurrió.");
+      return;
+    }
+
+    const payload = {
+      tipo: incidentTypeInput.value,
+      detalle,
+      concesionario: {
+        numAutorizado: campoNumAut?.value || "",
+        dependencia: campoDependencia?.value || "",
+        localidad: campoLocalidad?.value || "",
+        autorizado: campoAutorizado?.value || "",
+        horario: campoHorario?.value || ""
+      },
+      timestamp: new Date().toISOString()
+    };
+
+    console.log("REPORTE ENVIADO:", payload);
+    alert("Tu reporte se ha registrado. ¡Gracias por ayudarnos a mejorar las cafeterías!");
+
+    incidentForm.reset();
+    if (incidentTypeInput) incidentTypeInput.value = "";
+    incidentTagButtons.forEach(b => b.classList.remove("active"));
   });
 });
