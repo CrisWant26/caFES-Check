@@ -426,7 +426,17 @@ h1, h2, h3,
 }
 
 /* Caja de cámara / QR */
-.camera-box,
+.camera-box {
+  background: radial-gradient(circle at top, #020617, #020617 45%, #000 100%);
+  border-radius: 18px;
+  border: 1px solid rgba(148,163,184,0.35);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+/* QR: cuadro más compacto y centrado */
 .qr-box {
   background: radial-gradient(circle at top, #020617, #020617 45%, #000 100%);
   border-radius: 18px;
@@ -434,7 +444,15 @@ h1, h2, h3,
   overflow: hidden;
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;  /* se adapta mejor en móvil */
+  max-width: 260px;   /* límite en móvil */
+  aspect-ratio: 1 / 1; /* CUADRADO 👈 */
+  margin: 12px auto 0; /* centrado */
+
+}
+.qr-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Video / foto ocupan todo el frame */

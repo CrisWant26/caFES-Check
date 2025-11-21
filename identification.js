@@ -247,7 +247,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const config = { fps: 10, qrbox: 250 };
+    // Config para QR cuadrado, centrado
+     const config = {
+        fps: 10,
+        qrbox: { width: 230, height: 230 } // cuadrado
+    };
+
 
     html5QrCode
       .start({ facingMode: "environment" }, config, onScanSuccess, () => {})
