@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>CaFES Check – Identificación de concesionario</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Librería para escanear QR -->
+  <script src="https://unpkg.com/html5-qrcode" defer></script>
+  <script src="identificacion.js" defer></script>
+</head>
+<body>
+  <div class="app-container">
+    <section class="screen identificacion-screen">
+      <header class="screen-header">
+        <button class="back-button" onclick="location.href='index.html'">←</button>
+        <span class="screen-title">Identificación de concesionario</span>
+      </header>
+
+      <p class="identificacion-intro">
+        Antes de levantar un reporte necesitamos identificar el concesionario
+        y registrar evidencia del lugar en este momento.
+      </p>
+
+      <div class="identificacion-layout">
+        <!-- COLUMNA 1: FOTO -->
+        <div class="ident-card">
+          <h2 class="form-title">1. Toma una fotografía</h2>
+          <p class="ident-text">
+            Usa la cámara de tu dispositivo para capturar una imagen del área
+            o del problema. No se permite seleccionar imágenes de la galería.
+          </p>
+
+          <div class="camera-box">
+            <video id="camera-preview" autoplay playsinline class="camera-preview"></video>
+            <canvas id="photo-canvas" class="hidden"></canvas>
+            <img id="photo-preview" class="photo-preview hidden" alt="Vista previa" />
+          </div>
+
+          <div class="camera-buttons">
+            <button id="btn-start-camera" class="btn btn-secondary">Activar cámara</button>
+            <button id="btn-take-photo" class="btn btn-primary hidden">Tomar fotografía</button>
+            <button id="btn-retake-photo" class="btn btn-secondary hidden">Volver a tomar</button>
+          </div>
+        </div>
+
+        <!-- COLUMNA 2: QR -->
+                <!-- COLUMNA 2: QR -->
+        <div class="ident-card">
+          <h2 class="form-title">2. Escanea el QR del concesionario</h2>
+          <p class="ident-text">
+            Acerca el código QR del concesionario (pegado en la cafetería).
+            Al escanearlo, llenaremos automáticamente los datos.
+          </p>
+
+          <!-- Botón para iniciar el escáner en vivo -->
+          <div class="camera-buttons" style="margin-bottom: 8px;">
+            <button id="btn-start-qr" class="btn btn-secondary full-width">
+              Activar escáner QR
+            </button>
+          </div>
+
+          <!-- Aquí se dibuja el video de la cámara -->
+          <div id="qr-reader" class="qr-box"></div>
+
+          <div class="signup-form concesionario-form">
+            <div class="form-group">
+              <label>Número autorizado</label>
+              <input type="text" id="campo-num-aut" readonly />
+            </div>
+            <div class="form-group">
+              <label>Dependencia</label>
+              <input type="text" id="campo-dependencia" readonly />
+            </div>
+            <div class="form-group">
+              <label>Localidad</label>
+              <input type="text" id="campo-localidad" readonly />
+            </div>
+            <div class="form-group">
+              <label>Autorizado</label>
+              <input type="text" id="campo-autorizado" readonly />
+            </div>
+            <div class="form-group">
+              <label>Horario</label>
+              <input type="text" id="campo-horario" readonly />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ident-footer">
+        <button id="btn-continuar" class="btn btn-primary full-width" disabled>
+          Continuar a pantalla principal
+        </button>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

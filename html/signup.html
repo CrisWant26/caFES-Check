@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>CaFES Check – Registro</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-container">
+    <section class="screen signup-screen">
+      <header class="screen-header">
+        <button class="back-button" onclick="location.href='index.html'">←</button>
+        <span class="screen-title">Crear cuenta</span>
+      </header>
+
+      <div class="form-card">
+        <h2 class="form-title">¿Eres comunidad UNAM?</h2>
+
+        <div class="role-toggle">
+          <button type="button" id="btn-unam" class="toggle-btn active">
+            Comunidad UNAM
+          </button>
+          <button type="button" id="btn-externo" class="toggle-btn">
+            No soy comunidad UNAM
+          </button>
+        </div>
+
+        <form id="signup-form" class="signup-form">
+          <!-- Común -->
+          <div class="form-group">
+            <label for="nombre-completo">Nombre completo</label>
+            <input
+              type="text"
+              id="nombre-completo"
+              name="nombreCompleto"
+              required
+              placeholder="Nombre(s) y apellidos"
+            />
+          </div>
+
+          <!-- Solo UNAM -->
+          <div class="form-group unam-only">
+            <label for="num-cuenta">Número de cuenta</label>
+            <input
+              type="text"
+              id="num-cuenta"
+              name="numCuenta"
+              inputmode="numeric"
+              placeholder="123456789"
+            />
+          </div>
+
+          <div class="form-group unam-only">
+            <label for="correo-unam">Correo institucional</label>
+            <input
+              type="email"
+              id="correo-unam"
+              name="correoUnam"
+              placeholder="usuario@comunidad.unam.mx"
+            />
+          </div>
+
+          <!-- Solo externos -->
+          <div class="form-group externo-only hidden">
+            <label for="correo-personal">Correo personal</label>
+            <input
+              type="email"
+              id="correo-personal"
+              name="correoPersonal"
+              placeholder="tucorreo@ejemplo.com"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary full-width">
+            Registrarme
+          </button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script src="signup.js"></script>
+</body>
+</html>

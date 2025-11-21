@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>CaFES Check – Iniciar sesión</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-container">
+    <section class="screen signup-screen">
+      <header class="screen-header">
+        <button class="back-button" onclick="location.href='index.html'">←</button>
+        <span class="screen-title">Iniciar sesión</span>
+      </header>
+
+      <div class="form-card">
+        <h2 class="form-title">Bienvenido de nuevo</h2>
+
+        <form class="signup-form" onsubmit="event.preventDefault(); location.href='identificacion.html';">
+          <div class="form-group">
+            <label for="login-email">Correo</label>
+            <input
+              type="email"
+              id="login-email"
+              required
+              placeholder="Tu correo"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="login-pass">Contraseña</label>
+            <input
+              type="password"
+              id="login-pass"
+              required
+              placeholder="••••••••"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary full-width">
+            Entrar
+          </button>
+        </form>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
