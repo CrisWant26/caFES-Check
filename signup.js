@@ -38,5 +38,5 @@ signupForm.addEventListener("submit", (event) => {
 
   // Aquí en un futuro puedes mandar datos a un backend.
   // Por ahora solo redirigimos a la pantalla principal.
-  window.location.href = "identificacion.html";
+  window.location.href = './identification.html';
 });
