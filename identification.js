@@ -70,67 +70,93 @@ function actualizarEstadoContinuar() {
 // =========================
 //  1. FOTO (EVIDENCIA)
 // =========================
+// =========================
+//  1. FOTO (EVIDENCIA) - VERSIÓN IOS COMPATIBLE
+// =========================
 
 startCamBtn?.addEventListener("click", async () => {
+  // 1. Verificar soporte básico
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    alert("Tu navegador no soporta acceso a la cámara. Intenta usar Safari actualizado.");
+    return;
+  }
+
   try {
-    // Pedir permiso de cámara
-    mediaStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "environment" }, // Intenta usar la cámara trasera
-      audio: false
-    });
+    // 2. Configuración más flexible para iOS
+    // Intentamos pedir la trasera, pero si falla, aceptamos cualquier cámara
+    const constraints = {
+      audio: false,
+      video: {
+        facingMode: "environment", // Intenta cámara trasera
+        width: { ideal: 1280 },    // Resolución ideal (no obligatoria)
+        height: { ideal: 720 }
+      }
+    };
 
+    alert("Solicitando permiso de cámara..."); // DEBUG: Para saber si el botón funciona
+
+    mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+
+    // 3. Asignar al video
     videoElement.srcObject = mediaStream;
+    
+    // IMPORTANTE PARA IOS: Asegurar que se reproduzca inline
+    videoElement.setAttribute("playsinline", true); 
+    videoElement.play(); // Forzar play
 
-    // Mostrar botones correctos
+    // 4. Cambiar interfaz
     takePhotoBtn.classList.remove("hidden");
     startCamBtn.classList.add("hidden");
+
   } catch (err) {
-    console.error("Error getUserMedia:", err);
-    alert("No se pudo acceder a la cámara. Asegúrate de estar en HTTPS o localhost y haber dado permisos.");
+    // AQUÍ VERÁS EL ERROR REAL EN TU IPHONE
+    console.error("Error cámara:", err);
+    alert("ERROR DE CÁMARA: " + err.name + " - " + err.message);
+    
+    if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+        alert("PERMISO DENEGADO: Ve a Ajustes > Safari > Cámara y permite el acceso.");
+    }
   }
 });
 
 takePhotoBtn?.addEventListener("click", () => {
-  if (!mediaStream) return;
+  if (!mediaStream) {
+    alert("No hay cámara activa.");
+    return;
+  }
 
-  // Configurar el canvas al tamaño del video
-  const track = mediaStream.getVideoTracks()[0];
-  const settings = track.getSettings();
-  const width  = settings.width  || 640;
-  const height = settings.height || 480;
+  // Asegurar que el canvas tenga el tamaño real del video
+  // (En iOS a veces el videoElement reporta 0 si no se ha pintado)
+  const videoWidth = videoElement.videoWidth;
+  const videoHeight = videoElement.videoHeight;
 
-  photoCanvas.width  = width;
-  photoCanvas.height = height;
+  if (videoWidth === 0 || videoHeight === 0) {
+    alert("Espera a que cargue bien el video antes de tomar la foto.");
+    return;
+  }
 
-  // Dibujar la foto
+  photoCanvas.width  = videoWidth;
+  photoCanvas.height = videoHeight;
+
   const ctx = photoCanvas.getContext("2d");
-  ctx.drawImage(videoElement, 0, 0, width, height);
+  ctx.drawImage(videoElement, 0, 0, videoWidth, videoHeight);
 
-  // Convertir a imagen visible
-  const dataUrl = photoCanvas.toDataURL("image/jpeg", 0.85);
-  photoPreview.src = dataUrl;
+  // Intentar generar la imagen
+  try {
+    const dataUrl = photoCanvas.toDataURL("image/jpeg", 0.8);
+    photoPreview.src = dataUrl;
 
-  // Cambiar interfaz
-  photoPreview.classList.remove("hidden");
-  videoElement.classList.add("hidden");
-  retakePhotoBtn.classList.remove("hidden");
-  takePhotoBtn.classList.add("hidden");
+    photoPreview.classList.remove("hidden");
+    videoElement.classList.add("hidden");
+    retakePhotoBtn.classList.remove("hidden");
+    takePhotoBtn.classList.add("hidden");
 
-  fotoTomada = true;
-  actualizarEstadoContinuar();
+    fotoTomada = true;
+    actualizarEstadoContinuar();
+  } catch (e) {
+    alert("Error al procesar la foto: " + e.message);
+  }
 });
-
-retakePhotoBtn?.addEventListener("click", () => {
-  fotoTomada = false;
-  actualizarEstadoContinuar();
-
-  // Resetear interfaz
-  photoPreview.classList.add("hidden");
-  retakePhotoBtn.classList.add("hidden");
-  videoElement.classList.remove("hidden");
-  takePhotoBtn.classList.remove("hidden");
-});
-
 // =========================
 //  2. QR EN VIVO
 // =========================
