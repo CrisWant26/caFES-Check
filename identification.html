@@ -24,6 +24,7 @@
       </p>
 
       <div class="identification-layout">
+
         <!-- PASO 1: FOTO -->
         <div class="ident-card" data-step="1">
           <h2 class="form-title">1. Toma una fotografía</h2>
@@ -75,27 +76,39 @@
 
           <div id="qr-reader" class="qr-box"></div>
 
-          <div class="signup-form concesionario-form">
+          <!-- 🔹 TEXTO QUE SE VE ANTES DE ESCANEAR -->
+          <p id="qr-hint" class="ident-text" style="margin-top: 10px; opacity: 0.8;">
+            Escanea el QR para ver los datos del concesionario.
+          </p>
+
+          <!-- 🔹 FORMULARIO OCULTO HASTA QUE EL QR SEA VÁLIDO -->
+          <div id="concesionario-datos" class="signup-form concesionario-form hidden">
+
             <div class="form-group">
               <label for="campo-num-aut">Número autorizado</label>
               <input type="text" id="campo-num-aut" readonly />
             </div>
+
             <div class="form-group">
               <label for="campo-dependencia">Dependencia</label>
               <input type="text" id="campo-dependencia" readonly />
             </div>
+
             <div class="form-group">
               <label for="campo-localidad">Localidad</label>
               <input type="text" id="campo-localidad" readonly />
             </div>
+
             <div class="form-group">
               <label for="campo-autorizado">Autorizado</label>
               <input type="text" id="campo-autorizado" readonly />
             </div>
+
             <div class="form-group">
               <label for="campo-horario">Horario</label>
               <input type="text" id="campo-horario" readonly />
             </div>
+
           </div>
         </div>
       </div>
@@ -108,7 +121,7 @@
     </section>
   </div>
 
-  <!-- Scripts al final para que carguen después del HTML -->
+  <!-- Scripts al final -->
   <script src="https://unpkg.com/html5-qrcode"></script>
   <script src="identification.js"></script>
 </body>

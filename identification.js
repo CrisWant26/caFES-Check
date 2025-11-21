@@ -71,6 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const campoAutorizado  = document.getElementById("campo-autorizado");
   const campoHorario     = document.getElementById("campo-horario");
 
+  // Contenedor del formulario y texto de hint
+  const concesionarioForm = document.getElementById("concesionario-datos");
+  const qrHint            = document.getElementById("qr-hint");
+
   function actualizarEstadoContinuar() {
     if (continuarBtn) {
       continuarBtn.disabled = !(fotoTomada && qrLeido);
@@ -202,6 +206,9 @@ document.addEventListener("DOMContentLoaded", () => {
       datosDelQR = JSON.parse(decodedText);
     } catch (e) {
       alert("El QR no es válido: debe contener un JSON.");
+      // Aseguramos que el formulario siga oculto
+      if (concesionarioForm) concesionarioForm.classList.add("hidden");
+      if (qrHint) qrHint.classList.remove("hidden");
       return;
     }
 
@@ -211,6 +218,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!registroEncontrado) {
       alert(`El número autorizado "${datosDelQR.numAutorizado}" no existe en la base de datos.`);
+      if (concesionarioForm) concesionarioForm.classList.add("hidden");
+      if (qrHint) qrHint.classList.remove("hidden");
       return;
     }
 
@@ -220,6 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (campoLocalidad)   campoLocalidad.value   = registroEncontrado.localidad;
     if (campoAutorizado)  campoAutorizado.value  = registroEncontrado.autorizado;
     if (campoHorario)     campoHorario.value     = registroEncontrado.horario;
+
+    // 👉 Mostrar formulario y ocultar mensaje de ayuda
+    if (concesionarioForm) concesionarioForm.classList.remove("hidden");
+    if (qrHint) qrHint.classList.add("hidden");
 
     qrLeido = true;
     actualizarEstadoContinuar();
@@ -248,11 +261,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Config para QR cuadrado, centrado
-     const config = {
-        fps: 10,
-        qrbox: { width: 230, height: 230 } // cuadrado
+    const config = {
+      fps: 10,
+      qrbox: { width: 230, height: 230 } // cuadrado
     };
-
 
     html5QrCode
       .start({ facingMode: "environment" }, config, onScanSuccess, () => {})
