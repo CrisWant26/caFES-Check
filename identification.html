@@ -9,13 +9,6 @@
   <title>CaFES Check – Identificación de concesionario</title>
 
   <link rel="stylesheet" href="styles.css" />
-
-  <script src="https://unpkg.com/html5-qrcode" defer></script>
-
-  <script src="identification.js" defer></script>
-
-
-
 </head>
 <body>
   <div class="app-container">
@@ -31,7 +24,8 @@
       </p>
 
       <div class="identification-layout">
-        <div class="ident-card">
+        <!-- PASO 1: FOTO -->
+        <div class="ident-card" data-step="1">
           <h2 class="form-title">1. Toma una fotografía</h2>
           <p class="ident-text">
             Usa la cámara de tu dispositivo para capturar una imagen del área
@@ -39,26 +33,41 @@
           </p>
 
           <div class="camera-box">
-            <video id="camera-preview" autoplay playsinline class="camera-preview"></video>
+            <video
+              id="camera-preview"
+              autoplay
+              playsinline
+              class="camera-preview">
+            </video>
             <canvas id="photo-canvas" class="hidden"></canvas>
-            <img id="photo-preview" class="photo-preview hidden" alt="Vista previa" />
+            <img
+              id="photo-preview"
+              class="photo-preview hidden"
+              alt="Vista previa de la fotografía" />
           </div>
 
           <div class="camera-buttons">
-            <button id="btn-start-camera" class="btn btn-secondary">Activar cámara</button>
-            <button id="btn-take-photo" class="btn btn-primary hidden">Tomar fotografía</button>
-            <button id="btn-retake-photo" class="btn btn-secondary hidden">Volver a tomar</button>
+            <button id="btn-start-camera" class="btn btn-secondary">
+              Activar cámara
+            </button>
+            <button id="btn-take-photo" class="btn btn-primary hidden">
+              Tomar fotografía
+            </button>
+            <button id="btn-retake-photo" class="btn btn-secondary hidden">
+              Volver a tomar
+            </button>
           </div>
         </div>
 
-        <div class="ident-card">
+        <!-- PASO 2: QR -->
+        <div class="ident-card" data-step="2">
           <h2 class="form-title">2. Escanea el QR del concesionario</h2>
           <p class="ident-text">
             Acerca el código QR del concesionario (pegado en la cafetería).
             Al escanearlo, llenaremos automáticamente los datos.
           </p>
 
-          <div class="camera-buttons" style="margin-bottom: 8px;">
+          <div class="camera-buttons">
             <button id="btn-start-qr" class="btn btn-secondary full-width">
               Activar escáner QR
             </button>
@@ -68,23 +77,23 @@
 
           <div class="signup-form concesionario-form">
             <div class="form-group">
-              <label>Número autorizado</label>
+              <label for="campo-num-aut">Número autorizado</label>
               <input type="text" id="campo-num-aut" readonly />
             </div>
             <div class="form-group">
-              <label>Dependencia</label>
+              <label for="campo-dependencia">Dependencia</label>
               <input type="text" id="campo-dependencia" readonly />
             </div>
             <div class="form-group">
-              <label>Localidad</label>
+              <label for="campo-localidad">Localidad</label>
               <input type="text" id="campo-localidad" readonly />
             </div>
             <div class="form-group">
-              <label>Autorizado</label>
+              <label for="campo-autorizado">Autorizado</label>
               <input type="text" id="campo-autorizado" readonly />
             </div>
             <div class="form-group">
-              <label>Horario</label>
+              <label for="campo-horario">Horario</label>
               <input type="text" id="campo-horario" readonly />
             </div>
           </div>
@@ -98,5 +107,9 @@
       </div>
     </section>
   </div>
+
+  <!-- Scripts al final para que carguen después del HTML -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="identification.js"></script>
 </body>
 </html>

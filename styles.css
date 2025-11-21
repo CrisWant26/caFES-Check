@@ -372,56 +372,80 @@ h1, h2, h3,
   }
 }
 
+
+
 /* ===== IDENTIFICACIÓN DE CONCESIONARIO ===== */
 
-.identificacion-screen {
-  color: #f9fafb;
+.identification-screen {
+  color: #e5e7eb; /* texto claro por defecto */
 }
 
-.identificacion-intro {
-  font-size: 0.9rem;
-  opacity: 0.9;
-  margin-bottom: 14px;
-  max-width: 680px;
-}
-
-.identificacion-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 1.1fr;
-  gap: 18px;
-  margin-top: 10px;
-  margin-bottom: 16px;
-}
-
+/* Tarjetas (foto + QR) */
 .ident-card {
-  background: rgba(15, 23, 42, 0.9);
+  background: radial-gradient(circle at top left, rgba(15,118,210,0.22), rgba(3,7,18,0.96));
+  border-radius: 22px;
+  padding: 18px 18px 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+/* Títulos dentro de la tarjeta */
+.ident-card .form-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: #f9fafb;
+  margin-bottom: 6px;
+}
+
+/* Descripción de cada paso */
+.ident-card .ident-text {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #cbd5f5;          /* YA NO NEGRO 👈 */
+  margin-bottom: 14px;
+}
+
+/* Pequeña etiqueta de paso arriba del título */
+.ident-card::before {
+  content: "PASO " attr(data-step);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bfdbfe;
+  background: rgba(15,118,210,0.18);
+  border: 1px solid rgba(129, 140, 248, 0.4);
+  padding: 4px 8px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+}
+
+/* Caja de cámara / QR */
+.camera-box,
+.qr-box {
+  background: radial-gradient(circle at top, #020617, #020617 45%, #000 100%);
   border-radius: 18px;
-  padding: 16px 16px 18px;
-  border: 1px solid rgba(15, 23, 42, 0.9);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
-}
-
-.ident-text {
-  font-size: 0.85rem;
-  opacity: 0.9;
-  margin-bottom: 10px;
-}
-
-.camera-box {
+  border: 1px solid rgba(148,163,184,0.35);
+  overflow: hidden;
   position: relative;
   width: 100%;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #020617;
-  min-height: 180px;
+  aspect-ratio: 4 / 3;  /* se adapta mejor en móvil */
 }
 
+/* Video / foto ocupan todo el frame */
 .camera-preview,
 .photo-preview {
   width: 100%;
-  display: block;
+  height: 100%;
+  object-fit: cover;
 }
 
+/* Botones debajo de cámara */
 .camera-buttons {
   display: flex;
   gap: 8px;
@@ -429,22 +453,23 @@ h1, h2, h3,
   flex-wrap: wrap;
 }
 
-.qr-box {
+.camera-buttons .btn {
+  flex: 1 1 48%;
+}
+
+/* Botón full-width (QR / Continuar) */
+.btn.full-width {
   width: 100%;
-  min-height: 220px;
-  background: #020617;
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 10px;
 }
 
-.concesionario-form .form-group input {
-  background: rgba(15, 23, 42, 0.7);
+/* Ajuste del texto de la intro arriba */
+.identificacion-intro {
+  font-size: 0.9rem;
+  color: #e5e7f5;
+  line-height: 1.6;
+  margin: 10px 0 18px;
 }
 
-.ident-footer {
-  margin-top: 4px;
-}
 
 /* Responsive: columnas apiladas en móvil */
 @media (max-width: 800px) {
