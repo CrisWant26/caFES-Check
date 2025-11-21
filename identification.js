@@ -1,3 +1,6 @@
+alert("JS de identificación CARGADO ✅");
+
+
 // =========================
 //  ESTADO COMPARTIDO
 // =========================
