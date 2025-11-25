@@ -1,3 +1,4 @@
+
 /* ===== BASE ===== */
 
 /* ===== BASE ===== */
@@ -6,34 +7,34 @@
 html {
   margin: 0;
   padding: 0;
-  background: #02070c; /* negro azuloso sólido para el bounce de Safari */
+  background: #010408; /* MODIFICADO: Negro azulado más profundo */
 }
 
 /* body es el que realmente ocupa la pantalla */
 body {
   margin: 0;
   padding: 0;
-  min-height: 100dvh; /* altura dinámica real del viewport en iOS */
+  min-height: 100dvh;
   width: 100%;
 
-  /* Fondo degradado de tu app */
-  background: radial-gradient(circle at top, #0d1f33 0%, #04101f 55%, #02070c 100%);
-  /* IMPORTANTE: quitar fixed, rompe en iPhone y causa el zoom raro */
-  /* background-attachment: fixed;  <-- lo quitamos */
+  /* MODIFICADO: Fondo degradado más oscuro y profundo */
+  /* Empieza en un azul nocturno profundo y va hacia negro casi puro */
+  background: radial-gradient(circle at center top, #0a1829 0%, #030a14 50%, #000000 100%);
 
-  /* Tipografía sistema (la que te gusta) */
+  /* Tipografía sistema */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
-  /* Safe areas solo en el body, no en html */
+  /* Safe areas */
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
 
-  /* Si quieres seguir centrando el contenedor: */
+  /* Centrado */
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  /* MODIFICADO: Centramos verticalmente también para una mejor presentación en desktop */
+  align-items: center;
 }
 
 
@@ -42,13 +43,20 @@ body {
 
 .app-container {
   width: 100%;
-  max-width: 1100px;
+  /* MODIFICADO: Un poco más ancho para pantallas grandes */
+  max-width: 1200px;
+  /* NUEVO: Centrado horizontal */
+  margin: 0 auto;
+
+  /* --- SE ELIMINARON LOS ESTILOS VISUALES DE CAJA --- */
+  /*
   background: rgba(255, 255, 255, 0.04);
   border-radius: 24px;
   padding: 24px 24px 32px;
   backdrop-filter: blur(18px);
   box-shadow: 0 22px 45px rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(7, 29, 41, 0.06);
+  */
 }
 
 /* PANTALLAS */
@@ -64,62 +72,69 @@ body {
 /* ===== PANTALLA AUTH ===== */
 
 .auth-screen {
-  min-height: 60vh;
+  /* MODIFICADO: Altura mínima mayor para que se sienta expansivo */
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
+  /* MODIFICADO: Centrar el contenido verticalmente dentro de la pantalla */
+  justify-content: center;
   align-items: center;
   text-align: center;
   color: #f9fafb;
-  padding: 24px 16px 16px;
+  /* MODIFICADO: Más padding para que respire, ya que no hay contenedor */
+  padding: 40px 20px;
 }
 
 .title-image-wrapper {
-  margin-top: 4px;
-  margin-bottom: 12px;
+  margin-top: 10px;
+  /* MODIFICADO: Más espacio debajo del título */
+  margin-bottom: 30px;
   display: flex;
   justify-content: center;
+  width: 100%; /* Asegura que el wrapper ocupe el ancho */
 }
 
 .title-image {
-  width: 500px;      /* ajusta tamaño */
-  max-width: 80%;
+  /* MODIFICADO: Aumentado significativamente para desktop */
+  width: 700px;
+  /* MODIFICADO: Asegura que no se salga en móviles */
+  max-width: 90%;
   height: auto;
   object-fit: contain;
+  /* NUEVO: Una sutil sombra para que la imagen se despegue del fondo */
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
 }
 
 .logo-wrapper {
-  width: 80px;
-  height: 80px;
-  border-radius: 40px;
+  /* Se mantienen las proporciones base, el tamaño lo define .big-logo */
+  border-radius: 50%; /* Círculo perfecto */
   background: linear-gradient(135deg, #f5e3b2 0%, #c89834 35%, #7c5a13 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  /* NUEVO: Sombra suave para el icono */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .big-logo {
-  width: 110px;
-  height: 110px;
-  border-radius: 32px;
-  margin-bottom: 18px;
+  /* MODIFICADO: MUCHO MÁS GRANDE (antes 110px) */
+  width: 180px;
+  height: 180px;
+  /* MODIFICADO: Más espacio debajo del logo */
+  margin-bottom: 35px;
 }
 
 .small-logo {
   width: 52px;
   height: 52px;
-  border-radius: 18px;
+  /* Ajuste para que sea circular si se usa en header */
+  border-radius: 50%;
 }
 
 .app-logo {
   width: 88%;
   height: auto;
-}
-
-.auth-title {
-  font-size: 1.9rem;
-  font-weight: 700;
-  margin-bottom: 8px;
 }
 
 /* ===== Títulos estilo iOS ===== */
@@ -163,36 +178,67 @@ h1, h2, h3,
 
 /* BOTONES */
 
+.auth-subtitle {
+  /* MODIFICADO: Fuente un poco más grande */
+  font-size: 1.1rem;
+  font-weight: 400;
+  /* MODIFICADO: Color un poco más brillante para contraste con el fondo oscuro */
+  color: rgba(255, 255, 255, 0.95);
+  opacity: 1;
+  /* MODIFICADO: Permitir que el texto sea más ancho en desktop */
+  max-width: 650px;
+  line-height: 1.5;
+}
+
+.auth-buttons {
+  /* MODIFICADO: Más espacio encima de los botones */
+  margin-top: 45px;
+  display: flex;
+  /* MODIFICADO: Más espacio entre botones */
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* BOTONES */
+
 .btn {
   border: none;
   border-radius: 999px;
-  padding: 10px 22px;
-  font-size: 0.95rem;
-  font-weight: 600;
+  /* MODIFICADO: Botones más grandes (más padding) */
+  padding: 14px 36px;
+  /* MODIFICADO: Texto un poco más grande */
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  transition: all 0.2s ease; /* Transición un poco más suave */
 }
 
 .btn-primary {
   background: linear-gradient(135deg, #facc15, #eab308);
   color: #1f2933;
-  box-shadow: 0 10px 20px rgba(250, 204, 21, 0.35);
+  /* Sombra más pronunciada para el botón principal */
+  box-shadow: 0 10px 25px rgba(250, 204, 21, 0.4);
 }
 
 .btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 28px rgba(250, 204, 21, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(250, 204, 21, 0.5);
 }
 
 .btn-secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05); /* Un fondo muy sutil */
   color: #f9fafb;
-  border: 1px solid rgba(249, 250, 251, 0.5);
+  border: 2px solid rgba(249, 250, 251, 0.4); /* Borde un poco más grueso */
+  backdrop-filter: blur(5px);
 }
 
 .btn-secondary:hover {
-  background: rgba(15, 23, 42, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(249, 250, 251, 0.8);
 }
+
 
 .full-width {
   width: 100%;
@@ -347,28 +393,34 @@ h1, h2, h3,
 
 /* ===== RESPONSIVE ===== */
 
+
+
 @media (max-width: 640px) {
+  /* Ajustar el padding del body en móviles */
   body {
-    padding: calc(14px + env(safe-area-inset-top))
-             12px
-             calc(16px + env(safe-area-inset-bottom));
+     align-items: flex-start; /* En móvil a veces es mejor alinear arriba */
+     padding: calc(20px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
   }
 
-  .app-container {
-    padding: 18px 14px 22px;
-    border-radius: 20px;
-  }
-
-  .auth-title {
-    font-size: 1.6rem;
+  /* Reducir un poco el logo en pantallas muy pequeñas para que no abrume */
+  .big-logo {
+      width: 140px;
+      height: 140px;
+      margin-bottom: 28px;
   }
 
   .auth-subtitle {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
-  .form-card {
-    padding: 18px 14px 20px;
+  .auth-buttons {
+      gap: 12px; /* Menos espacio entre botones en móvil */
+      width: 100%; /* Botones ocupan el ancho */
+  }
+
+  .btn {
+      width: 100%; /* Botones full width en móvil */
+      padding: 14px 24px;
   }
 }
 
