@@ -1,7 +1,5 @@
-
 /* ===== BASE ===== */
 
-/* ===== BASE ===== */
 
 /* html solo como “lienzo” de fondo sólido (para el rebote) */
 html {
@@ -72,69 +70,95 @@ body {
 /* ===== PANTALLA AUTH ===== */
 
 .auth-screen {
-  /* MODIFICADO: Altura mínima mayor para que se sienta expansivo */
+  /* Se mantiene igual */
   min-height: 85vh;
   display: flex;
   flex-direction: column;
-  /* MODIFICADO: Centrar el contenido verticalmente dentro de la pantalla */
   justify-content: center;
   align-items: center;
   text-align: center;
   color: #f9fafb;
-  /* MODIFICADO: Más padding para que respire, ya que no hay contenedor */
   padding: 40px 20px;
 }
 
 .title-image-wrapper {
   margin-top: 10px;
-  /* MODIFICADO: Más espacio debajo del título */
-  margin-bottom: 30px;
+  /* MODIFICADO: Un poco más de espacio debajo del título para que respire */
+  margin-bottom: 35px;
   display: flex;
   justify-content: center;
-  width: 100%; /* Asegura que el wrapper ocupe el ancho */
+  width: 100%;
 }
 
 .title-image {
-  /* MODIFICADO: Aumentado significativamente para desktop */
-  width: 700px;
-  /* MODIFICADO: Asegura que no se salga en móviles */
-  max-width: 90%;
+  /* 1. AUMENTO DE TAMAÑO BASE */
+  /* Lo subimos de 600px a 900px para que intente ocupar más espacio */
+  width: 900px; 
+  
+  /* Aseguramos que en pantallas chicas no se salga */
+  max-width: 95%;
+  
   height: auto;
   object-fit: contain;
-  /* NUEVO: Una sutil sombra para que la imagen se despegue del fondo */
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+  
+  /* 2. EL TRUCO DEL ZOOM (ESCALA) */
+  /* Esto hace un "zoom" del 20% extra a la imagen. 
+     Si aún lo sientes chico, cambia 1.2 por 1.3 o 1.4 */
+  transform: scale(1.2); 
+  
+  /* 3. AJUSTE DE MÁRGENES (IMPORTANTE) */
+  /* Al hacer zoom o si la imagen tiene mucho aire arriba/abajo, 
+     a veces se ve lejos del logo. Con esto lo acercamos un poco. */
+  margin-top: -20px;     /* Acercar al logo de arriba */
+  margin-bottom: 10px;   /* Ajustar espacio con el subtítulo de abajo */
+
+  /* Sombra para que resalte (la que ya tenías) */
+  filter: drop-shadow(0 0 15px rgba(250, 204, 21, 0.15)) drop-shadow(0 4px 4px rgba(0,0,0,0.5));
 }
 
+/* ===== AJUSTE DEL LOGO ===== */
+
+/* ===== AJUSTE DEL LOGO (NUEVO) ===== */
+
 .logo-wrapper {
-  /* Se mantienen las proporciones base, el tamaño lo define .big-logo */
-  border-radius: 50%; /* Círculo perfecto */
-  background: linear-gradient(135deg, #f5e3b2 0%, #c89834 35%, #7c5a13 100%);
+  /* QUITAMOS EL FONDO DORADO Y EL BORDE REDONDO DEL CONTENEDOR */
+  /* background: linear-gradient(145deg, #f5e3b2 10%, #c89834 45%, #7c5a13 90%); */
+  /* border-radius: 50%; */
+  /* box-shadow: 0 25px 50px -12px rgba(200, 152, 52, 0.4); */
+  
+  background: transparent; /* Fondo transparente */
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  /* NUEVO: Sombra suave para el icono */
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .big-logo {
-  /* MODIFICADO: MUCHO MÁS GRANDE (antes 110px) */
-  width: 180px;
-  height: 180px;
-  /* MODIFICADO: Más espacio debajo del logo */
-  margin-bottom: 35px;
-}
-
-.small-logo {
-  width: 52px;
-  height: 52px;
-  /* Ajuste para que sea circular si se usa en header */
-  border-radius: 50%;
+  /* HACEMOS EL CONTENEDOR MÁS GRANDE PARA QUE EL LOGO CREZCA */
+  /* Antes era 190px */
+  width: 600px; 
+  height: 600px;
+  
+  /* BAJAMOS EL LOGO CON MARGEN SUPERIOR */
+  margin-top: 40px; 
+  margin-bottom: 40px;
 }
 
 .app-logo {
-  width: 88%;
-  height: auto;
+  /* LA IMAGEN OCUPA TODO EL ESPACIO DISPONIBLE */
+  width: 100%; 
+  height: 100%;
+  
+  /* QUITAMOS EL RECORTE CIRCULAR FORZADO, YA QUE LA NUEVA IMAGEN
+     PARECE SER UN PNG TRANSPARENTE QUE YA TIENE LA FORMA DESEADA */
+  /* border-radius: 50%; */
+  /* object-fit: cover; */
+  /* box-shadow: inset 0 0 10px rgba(0,0,0,0.5); */
+  
+  /* Aseguramos que la imagen se contenga bien sin deformarse */
+  object-fit: contain;
+  
+  /* Opcional: Una sombra suave al propio logo para darle profundidad */
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
 }
 
 /* ===== Títulos estilo iOS ===== */
@@ -391,37 +415,66 @@ h1, h2, h3,
   line-height: 1.4;
 }
 
-/* ===== RESPONSIVE ===== */
 
 
+/* ===== RESPONSIVE (CELULARES) ===== */
 
 @media (max-width: 640px) {
-  /* Ajustar el padding del body en móviles */
+  
+  /* 1. Ajuste del cuerpo para centrar todo bien */
   body {
-     align-items: flex-start; /* En móvil a veces es mejor alinear arriba */
-     padding: calc(20px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
+    align-items: center; /* Centrado vertical */
+    padding: calc(20px + env(safe-area-inset-top)) 24px calc(20px + env(safe-area-inset-bottom));
+    min-height: 100dvh;
+  }
+  
+  .auth-screen {
+    padding: 0;
+    justify-content: center;
+    width: 100%;
   }
 
-  /* Reducir un poco el logo en pantallas muy pequeñas para que no abrume */
-  .big-logo {
-      width: 140px;
-      height: 140px;
-      margin-bottom: 28px;
+  /* 2. LA IMAGEN GRANDE (Logo + Texto combinados) */
+  .title-image {
+    /* Aquí está la magia: Usamos porcentaje, no píxeles fijos */
+    width: 100%;  
+    max-width: 400px; /* Un tope para que no se deforme en celulares gigantes */
+    height: auto;
+    
+    /* Le damos un "empujón" de tamaño extra */
+    transform: scale(1.15); 
+    
+    /* Espaciado para que no choque con el texto de abajo */
+    margin-top: -20px;
+    margin-bottom: 10px; 
   }
 
-  .auth-subtitle {
-    font-size: 1rem;
-  }
-
-  .auth-buttons {
-      gap: 12px; /* Menos espacio entre botones en móvil */
-      width: 100%; /* Botones ocupan el ancho */
-  }
-
-  .btn {
-      width: 100%; /* Botones full width en móvil */
-      padding: 14px 24px;
-  }
+  /* 3. Textos ajustados */
+ .auth-subtitle {
+  /* MODIFICADO: Usamos la fuente elegante que importamos */
+  font-family: 'Playfair Display', serif;
+  
+  /* Cursiva para que se vea más humano y menos "robot" */
+  font-style: italic; 
+  
+  /* Un poco más grande para que se aprecie la letra */
+  font-size: 1.15rem; 
+  
+  /* Espaciado entre letras un poco más abierto */
+  letter-spacing: 0.02em;
+  
+  /* Altura de línea para que no se vea apretado */
+  line-height: 1.5;
+  
+  /* Color: Un blanco hueso brillante, no gris apagado */
+  color: #f3f4f6;
+  opacity: 0.9;
+  
+  /* Ancho máximo para que haga un salto de línea bonito en PC */
+  max-width: 500px;
+  
+  /* Margen superior para separarlo de la imagen */
+  margin-top: 0px; 
 }
 
 
