@@ -33,10 +33,28 @@ btnExterno.addEventListener("click", () => setMode("externo"));
 setMode("unam");
 
 // Submit del formulario
-signupForm.addEventListener("submit", (event) => {
-  event.preventDefault(); // evitar recarga
+signupForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-  // Aquí en un futuro puedes mandar datos a un backend.
-  // Por ahora solo redirigimos a la pantalla principal.
-  window.location.href = './identification.html';
+  const isUnam = btnUnam.classList.contains("active");
+  const correo = isUnam ? 
+    document.getElementById("correo-unam").value : 
+    document.getElementById("correo-personal").value;
+  
+  // Generar contraseña temporal (en producción debería ser ingresada por el usuario)
+  const contrasena = "temp123";
+  
+  try {
+    const result = isUnam ? 
+      await AuthAPI.registerUNAM(correo, contrasena) :
+      await AuthAPI.registerExterno(correo, contrasena);
+    
+    if (result.mensaje) {
+      alert(result.mensaje);
+      localStorage.setItem('usuario_id', result.usuario_id);
+      window.location.href = './identification.html';
+    }
+  } catch (error) {
+    alert('Error al registrar: ' + error.message);
+  }
 });
