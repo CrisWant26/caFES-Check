@@ -20,8 +20,7 @@
       <div class="form-card">
         <h2 class="form-title">Bienvenido de nuevo</h2>
 
-        <form class="signup-form"
-      onsubmit="event.preventDefault(); location.href='identification.html';">
+        <form id="login-form" class="signup-form">
           <div class="form-group">
             <label for="login-email">Correo</label>
             <input
@@ -49,5 +48,23 @@
       </div>
     </section>
   </div>
+  <script src="api-config.js"></script>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const correo = document.getElementById('login-email').value;
+      const contrasena = document.getElementById('login-pass').value;
+      
+      try {
+        const result = await AuthAPI.login(correo, contrasena);
+        if (result.mensaje) {
+          localStorage.setItem('usuario_id', result.usuario_id);
+          location.href = 'identification.html';
+        }
+      } catch (error) {
+        alert('Error al iniciar sesión: ' + error.message);
+      }
+    });
+  </script>
 </body>
 </html>
